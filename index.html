@@ -3,267 +3,57 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>aramadan0096 | Portfolio</title>
+  <title>Ahmed Ramadan — Visual Effects Pipeline Technical Director</title>
+  <meta name="description" content="Ahmed Ramadan (aramadan0096) — Visual Effects Pipeline Technical Director. VFX pipeline tooling, Nuke, Python, OpenPype, Open-source contributor."/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --bg: #0d1117;
-      --surface: #161b22;
-      --border: #30363d;
-      --accent: #58a6ff;
-      --accent2: #3fb950;
-      --text: #c9d1d9;
-      --muted: #8b949e;
-      --white: #f0f6fc;
+      --bg: #0d1117; --surface: #161b22; --border: #30363d; --accent: #58a6ff; --accent2: #3fb950;
+      --text: #c9d1d9; --muted: #8b949e; --white: #f0f6fc;
     }
-
     html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-      line-height: 1.6;
-    }
-
-    /* ── NAV ── */
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(13, 17, 23, 0.85);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav-inner {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 56px;
-    }
-    .nav-logo {
-      font-weight: 700;
-      font-size: 1.1rem;
-      color: var(--white);
-      text-decoration: none;
-    }
-    .nav-logo span { color: var(--accent); }
-    nav ul { list-style: none; display: flex; gap: 1.5rem; }
-    nav a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.9rem;
-      transition: color 0.2s;
-    }
-    nav a:hover { color: var(--accent); }
-
-    /* ── HERO ── */
-    #hero {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 5rem 1.5rem 4rem;
-      display: flex;
-      align-items: center;
-      gap: 3rem;
-    }
-    .hero-avatar {
-      flex-shrink: 0;
-      width: 140px;
-      height: 140px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 3.5rem;
-      font-weight: 700;
-      color: #fff;
-      box-shadow: 0 0 0 4px var(--border);
-    }
-    .hero-text h1 {
-      font-size: 2.5rem;
-      font-weight: 800;
-      color: var(--white);
-      line-height: 1.2;
-    }
-    .hero-text h1 span { color: var(--accent); }
-    .hero-subtitle {
-      margin-top: 0.5rem;
-      font-size: 1.1rem;
-      color: var(--muted);
-    }
-    .hero-bio {
-      margin-top: 1rem;
-      max-width: 560px;
-      color: var(--text);
-    }
-    .hero-links {
-      margin-top: 1.5rem;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-    }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      padding: 0.5rem 1.1rem;
-      border-radius: 6px;
-      font-size: 0.88rem;
-      font-weight: 600;
-      text-decoration: none;
-      transition: opacity 0.2s, transform 0.15s;
-    }
-    .btn:hover { opacity: 0.85; transform: translateY(-1px); }
-    .btn-primary { background: var(--accent); color: #0d1117; }
-    .btn-outline { border: 1px solid var(--border); color: var(--text); }
-
-    /* ── SECTIONS ── */
-    section { padding: 4rem 1.5rem; }
-    .section-inner { max-width: 1000px; margin: 0 auto; }
-    .section-title {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--white);
-      margin-bottom: 0.4rem;
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-    }
-    .section-title::after {
-      content: "";
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-      margin-left: 0.5rem;
-    }
-    .section-sub {
-      color: var(--muted);
-      margin-bottom: 2rem;
-      font-size: 0.9rem;
-    }
-
-    /* ── SKILLS ── */
-    .skills-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem;
-    }
-    .skill-tag {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 0.35rem 0.9rem;
-      font-size: 0.85rem;
-      color: var(--text);
-    }
-    .skill-tag.highlight { border-color: var(--accent); color: var(--accent); }
-
-    /* ── PROJECTS ── */
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-      gap: 1rem;
-    }
-    .project-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1.25rem;
-      display: flex;
-      flex-direction: column;
-      transition: border-color 0.2s, transform 0.15s;
-      text-decoration: none;
-    }
-    .project-card:hover {
-      border-color: var(--accent);
-      transform: translateY(-3px);
-    }
-    .project-icon { font-size: 1.4rem; margin-bottom: 0.6rem; }
-    .project-name {
-      font-weight: 700;
-      font-size: 1rem;
-      color: var(--accent);
-      margin-bottom: 0.4rem;
-    }
-    .project-desc {
-      color: var(--muted);
-      font-size: 0.88rem;
-      flex: 1;
-    }
-    .project-footer {
-      display: flex;
-      gap: 0.8rem;
-      margin-top: 1rem;
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
-    .project-lang::before {
-      content: "● ";
-      color: var(--accent2);
-    }
-
-    /* ── CONTACT ── */
-    .contact-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 2rem;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1.5rem;
-    }
-    .contact-card h3 {
-      font-size: 1.2rem;
-      color: var(--white);
-      margin-bottom: 0.4rem;
-    }
-    .contact-card p { color: var(--muted); font-size: 0.9rem; }
-    .contact-links { display: flex; flex-wrap: wrap; gap: 0.75rem; }
-    .contact-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      padding: 0.5rem 1rem;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      color: var(--text);
-      font-size: 0.88rem;
-      text-decoration: none;
-      transition: border-color 0.2s, color 0.2s;
-    }
-    .contact-link:hover { border-color: var(--accent); color: var(--accent); }
-
-    /* ── FOOTER ── */
-    footer {
-      border-top: 1px solid var(--border);
-      text-align: center;
-      padding: 1.5rem 1rem;
-      color: var(--muted);
-      font-size: 0.82rem;
-    }
-    footer a { color: var(--accent); text-decoration: none; }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 640px) {
-      #hero { flex-direction: column; text-align: center; }
-      .hero-links { justify-content: center; }
-      .hero-text h1 { font-size: 1.9rem; }
-    }
+    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; line-height: 1.6; }
+    nav { position: sticky; top: 0; z-index: 100; background: rgba(13,17,23,0.85); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); }
+    .nav-inner { max-width: 1000px; margin: 0 auto; padding: 0 1.5rem; display:flex; align-items:center; justify-content:space-between; height:56px; }
+    .nav-logo { font-weight:700; font-size:1.05rem; color:var(--white); text-decoration:none; }
+    .nav-logo span { color:var(--accent); }
+    nav ul { list-style:none; display:flex; gap:1rem; }
+    nav a { color:var(--muted); text-decoration:none; font-size:0.9rem; }
+    nav a:hover { color:var(--accent); }
+    #hero { max-width:1000px; margin:0 auto; padding:4rem 1.5rem 3rem; display:flex; gap:2.5rem; align-items:center; }
+    .hero-avatar { flex-shrink:0; width:140px; height:140px; border-radius:50%; box-shadow:0 0 0 4px var(--border); object-fit:cover; display:block; }
+    .hero-text h1 { font-size:2.2rem; font-weight:800; color:var(--white); line-height:1.15; }
+    .hero-text h1 span { color:var(--accent); }
+    .hero-subtitle { margin-top:0.4rem; color:var(--muted); font-size:1.02rem; }
+    .hero-bio { margin-top:1rem; max-width:680px; color:var(--text); }
+    .hero-links { margin-top:1.2rem; display:flex; gap:0.6rem; flex-wrap:wrap; }
+    .btn { display:inline-flex; align-items:center; gap:0.5rem; padding:0.5rem 1rem; border-radius:6px; font-weight:700; font-size:0.9rem; text-decoration:none; }
+    .btn-primary { background:var(--accent); color:#0d1117; }
+    .btn-outline { border:1px solid var(--border); color:var(--text); }
+    section { padding:3.2rem 1.5rem; }
+    .section-inner { max-width:1000px; margin:0 auto; }
+    .section-title { font-size:1.25rem; font-weight:800; color:var(--white); margin-bottom:0.5rem; display:flex; align-items:center; gap:0.6rem; }
+    .section-title::after { content:""; flex:1; height:1px; background:var(--border); margin-left:0.6rem; }
+    .section-sub { color:var(--muted); margin-bottom:1.2rem; font-size:0.92rem; }
+    .skills-grid { display:flex; flex-wrap:wrap; gap:0.6rem; }
+    .skill-tag { background:var(--surface); border:1px solid var(--border); border-radius:20px; padding:0.35rem 0.9rem; font-size:0.85rem; color:var(--text); }
+    .skill-tag.highlight { border-color:var(--accent); color:var(--accent); }
+    .projects-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1rem; }
+    .project-card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:1.25rem; display:flex; flex-direction:column; text-decoration:none; transition:transform 0.15s, border-color 0.15s; }
+    .project-card:hover { transform:translateY(-4px); border-color:var(--accent); }
+    .project-icon { font-size:1.4rem; margin-bottom:0.6rem; }
+    .project-name { font-weight:800; color:var(--accent); margin-bottom:0.45rem; }
+    .project-desc { color:var(--muted); font-size:0.9rem; flex:1; }
+    .project-footer { margin-top:1rem; color:var(--muted); font-size:0.82rem; display:flex; gap:0.6rem; }
+    .contact-card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:1.25rem; display:flex; gap:1rem; align-items:center; justify-content:space-between; flex-wrap:wrap; }
+    footer { border-top:1px solid var(--border); text-align:center; padding:1rem; color:var(--muted); font-size:0.82rem; }
+    @media (max-width:640px) { #hero { flex-direction:column; text-align:center; } .hero-text h1 { font-size:1.6rem; } .hero-links { justify-content:center; } }
   </style>
 </head>
 <body>
-
-  <!-- NAV -->
   <nav>
     <div class="nav-inner">
-      <a href="#hero" class="nav-logo">&lt;<span>aramadan0096</span> /&gt;</a>
+      <a href="#hero" class="nav-logo">&lt;<span>AhmedRamadan</span>/&gt;</a>
       <ul>
         <li><a href="#about">About</a></li>
         <li><a href="#skills">Skills</a></li>
@@ -273,129 +63,119 @@
     </div>
   </nav>
 
-  <!-- HERO -->
   <section id="hero">
-    <div class="hero-avatar">A</div>
+    <img class="hero-avatar" src="res/profile_pic.jpg" alt="Ahmed Ramadan" />
     <div class="hero-text">
-      <h1>Hi, I'm <span>aramadan0096</span> 👋</h1>
-      <p class="hero-subtitle">Software Developer &amp; Open Source Enthusiast</p>
+      <h1>Hi — I’m <span>Ahmed Ramadan</span></h1>
+      <div class="hero-subtitle">Visual Effects Pipeline Technical Director — VFX tooling, Nuke, Python &amp; open-source</div>
       <p class="hero-bio">
-        I love building things for the web and exploring new technologies.
-        Welcome to my little corner of the internet — feel free to look around!
+        I build tools and pipelines that help VFX teams move faster and ship high‑quality work. My work spans Nuke scripting, pipeline engineering, open-source projects (including Nuke-AI-Denoiser and OpenPype contributions), and integrations across compositing, DIT and grading stages. I focus on robust, repeatable tooling and pragmatic automation for production pipelines.
       </p>
       <div class="hero-links">
-        <a href="https://github.com/aramadan0096" class="btn btn-primary" target="_blank" rel="noopener">
-          <!-- GitHub icon -->
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-          GitHub
-        </a>
-        <a href="#projects" class="btn btn-outline">View Projects</a>
+        <a class="btn btn-primary" href="https://github.com/aramadan0096" target="_blank" rel="noopener">View GitHub</a>
+        <a class="btn btn-outline" href="https://www.linkedin.com/in/a-ramadan0096/" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn btn-outline" href="https://www.imdb.com/name/nm12046362/" target="_blank" rel="noopener">IMDb</a>
       </div>
     </div>
   </section>
 
-  <!-- ABOUT -->
-  <section id="about" style="padding-top: 0;">
+  <section id="about" style="padding-top:0;">
     <div class="section-inner">
-      <h2 class="section-title">
-        <span>📖</span> About Me
-      </h2>
-      <p class="section-sub">A little bit about myself</p>
-      <p style="max-width: 680px; color: var(--text);">
-        I'm a passionate developer who enjoys working on both front-end and back-end projects.
-        I'm always looking for new challenges and opportunities to learn.
-        When I'm not coding, you can find me exploring open source repositories, reading tech articles,
-        or experimenting with new tools and frameworks.
+      <h2 class="section-title">📖 About</h2>
+      <p class="section-sub">What I do — short version</p>
+      <p style="max-width:680px; color:var(--text);">
+        I'm a Visual Effects Pipeline Technical Director and team lead with hands-on experience designing VFX pipelines, building production tools (Python / PySide), and integrating open-source tools into studio workflows. I actively publish and maintain open-source repositories related to Nuke, pipeline automation, and asset management. I lead practical, production-first solutions for compositing and delivery pipelines.
       </p>
     </div>
   </section>
 
-  <!-- SKILLS -->
   <section id="skills">
     <div class="section-inner">
-      <h2 class="section-title"><span>⚡</span> Skills</h2>
-      <p class="section-sub">Technologies I work with</p>
+      <h2 class="section-title">⚡ Skills</h2>
+      <p class="section-sub">Tools and technologies I use in production</p>
       <div class="skills-grid">
-        <span class="skill-tag highlight">HTML</span>
-        <span class="skill-tag highlight">CSS</span>
-        <span class="skill-tag highlight">JavaScript</span>
-        <span class="skill-tag">Python</span>
-        <span class="skill-tag">Git &amp; GitHub</span>
-        <span class="skill-tag">Node.js</span>
-        <span class="skill-tag">React</span>
-        <span class="skill-tag">REST APIs</span>
-        <span class="skill-tag">SQL</span>
-        <span class="skill-tag">Linux</span>
-        <span class="skill-tag">VS Code</span>
+        <span class="skill-tag highlight">Nuke / Blink Kernels</span>
+        <span class="skill-tag highlight">Python (production)</span>
+        <span class="skill-tag highlight">Pipeline Engineering</span>
+        <span class="skill-tag">PySide2 / GUI</span>
+        <span class="skill-tag">OpenPype / Avalon</span>
+        <span class="skill-tag">OpenImageIO / OpenColorIO</span>
+        <span class="skill-tag">FFmpeg</span>
+        <span class="skill-tag">Linux / Windows</span>
+        <span class="skill-tag">Maya (scripting)</span>
+        <span class="skill-tag">Git / CI / Pre-commit</span>
+        <span class="skill-tag">Team Leadership / TD</span>
       </div>
     </div>
   </section>
 
-  <!-- PROJECTS -->
   <section id="projects">
     <div class="section-inner">
-      <h2 class="section-title"><span>🚀</span> Projects</h2>
-      <p class="section-sub">Things I've built and shipped</p>
+      <h2 class="section-title">🚀 Selected Projects</h2>
+      <p class="section-sub">Open-source and production tooling (links to GitHub)</p>
+
       <div class="projects-grid">
 
-        <a href="https://github.com/aramadan0096" class="project-card" target="_blank" rel="noopener">
-          <div class="project-icon">🌐</div>
-          <div class="project-name">Portfolio Website</div>
-          <p class="project-desc">This very portfolio page — a static GitHub Pages site built with pure HTML &amp; CSS.</p>
-          <div class="project-footer">
-            <span class="project-lang">HTML / CSS</span>
-          </div>
+        <a class="project-card" href="https://github.com/aramadan0096/Nuke-AI-Denoiser" target="_blank" rel="noopener">
+          <div class="project-icon">🧼</div>
+          <div class="project-name">Nuke-AI-Denoiser</div>
+          <p class="project-desc">A Nuke plug-in / node wrapper that integrates AI-based denoising into Nuke workflows (Python). Production-oriented denoiser tooling for compositors.</p>
+          <div class="project-footer"><span>Python · Nuke</span></div>
         </a>
 
-        <a href="https://github.com/aramadan0096" class="project-card" target="_blank" rel="noopener">
-          <div class="project-icon">🛠️</div>
-          <div class="project-name">Project Two</div>
-          <p class="project-desc">A sample project description. Update this with your real project details and repository link.</p>
-          <div class="project-footer">
-            <span class="project-lang">JavaScript</span>
-          </div>
-        </a>
-
-        <a href="https://github.com/aramadan0096" class="project-card" target="_blank" rel="noopener">
+        <a class="project-card" href="https://github.com/aramadan0096/Stax" target="_blank" rel="noopener">
           <div class="project-icon">📦</div>
-          <div class="project-name">Project Three</div>
-          <p class="project-desc">Another placeholder project. Replace with your own work and link to the corresponding repo.</p>
-          <div class="project-footer">
-            <span class="project-lang">Python</span>
-          </div>
+          <div class="project-name">Stax</div>
+          <p class="project-desc">Open-source advanced solution for mass production stock footage management — aimed at scalable asset handling and automation in production.</p>
+          <div class="project-footer"><span>Python · Production Tools</span></div>
         </a>
+
+        <a class="project-card" href="https://github.com/aramadan0096/nuke-games" target="_blank" rel="noopener">
+          <div class="project-icon">🎮</div>
+          <div class="project-name">nuke-games</div>
+          <p class="project-desc">Scripting experiments and fun utilities for Nuke — practice code that demonstrates Nuke Python usage and node automation.</p>
+          <div class="project-footer"><span>Python · Nuke</span></div>
+        </a>
+
+        <!-- <a class="project-card" href="https://github.com/aramadan0096/NotNuke" target="_blank" rel="noopener">
+          <div class="project-icon">🔧</div>
+          <div class="project-name">NotNuke</div>
+          <p class="project-desc">A shared Foundry .nuke configuration and helpers — useful for standardizing Nuke environments across artists and machines.</p>
+          <div class="project-footer"><span>Config · Python</span></div>
+        </a> -->
+
+        <!-- <a class="project-card" href="https://github.com/aramadan0096" target="_blank" rel="noopener">
+          <div class="project-icon">🌐</div>
+          <div class="project-name">Full GitHub</div>
+          <p class="project-desc">My public GitHub contains repositories for pipeline tools, Nuke integrations, and production utilities. Explore repos for examples of production-ready code and research projects.</p>
+          <div class="project-footer"><span>Open-source</span></div>
+        </a> -->
 
       </div>
     </div>
   </section>
 
-  <!-- CONTACT -->
   <section id="contact">
     <div class="section-inner">
-      <h2 class="section-title"><span>📬</span> Contact</h2>
-      <p class="section-sub">Let's connect</p>
+      <h2 class="section-title">📬 Contact</h2>
+      <p class="section-sub">Get in touch for pipeline work, consultancy or collaborations</p>
       <div class="contact-card">
         <div>
-          <h3>Get in touch</h3>
-          <p>Have a project in mind or just want to say hello? Reach out!</p>
+          <h3>Ahmed Ramadan — Visual Effects Pipeline Technical Director</h3>
+          <p style="color:var(--muted)">Based in Giza, Egypt — working across VFX production, pipeline tooling and R&amp;D.</p>
         </div>
-        <div class="contact-links">
-          <a href="https://github.com/aramadan0096" class="contact-link" target="_blank" rel="noopener">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-            GitHub
-          </a>
+        <div class="contact-links" style="display:flex; gap:0.6rem;">
+          <a class="contact-link" href="https://github.com/aramadan0096" target="_blank" rel="noopener">GitHub</a>
+          <a class="contact-link" href="https://www.linkedin.com/in/a-ramadan0096/" target="_blank" rel="noopener">LinkedIn</a>
+          <a class="contact-link" href="https://www.imdb.com/name/nm12046362/" target="_blank" rel="noopener">IMDb</a>
+          <a class="contact-link" href="mailto:ahmedramadan347@gmail.com">Email</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer>
-    <p>
-      Built with ❤️ by <a href="https://github.com/aramadan0096" target="_blank" rel="noopener">aramadan0096</a>
-      &nbsp;·&nbsp; Hosted on <a href="https://pages.github.com" target="_blank" rel="noopener">GitHub Pages</a>
-    </p>
+    <p>Built by Ahmed Ramadan · <a href="https://github.com/aramadan0096" target="_blank" rel="noopener">GitHub</a></p>
   </footer>
-
 </body>
 </html>
