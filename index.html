@@ -1,181 +1,477 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ahmed Ramadan — Visual Effects Pipeline Technical Director</title>
+  <title>Ahmed Ramadan — VFX Pipeline Technical Director</title>
   <meta name="description" content="Ahmed Ramadan (aramadan0096) — Visual Effects Pipeline Technical Director. VFX pipeline tooling, Nuke, Python, OpenPype, Open-source contributor."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg: #0d1117; --surface: #161b22; --border: #30363d; --accent: #58a6ff; --accent2: #3fb950;
-      --text: #c9d1d9; --muted: #8b949e; --white: #f0f6fc;
+      --bg:      #070b0f;
+      --bg2:     #0d1117;
+      --surface: rgba(22,27,34,0.7);
+      --glass:   rgba(255,255,255,0.04);
+      --border:  rgba(48,54,61,0.8);
+      --border2: rgba(88,166,255,0.25);
+      --accent:  #58a6ff;
+      --accent2: #3fb950;
+      --accent3: #bc8cff;
+      --glow:    rgba(88,166,255,0.18);
+      --text:    #c9d1d9;
+      --muted:   #8b949e;
+      --white:   #f0f6fc;
+      --radius:  14px;
     }
     html { scroll-behavior: smooth; }
-    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; line-height: 1.6; }
-    nav { position: sticky; top: 0; z-index: 100; background: rgba(13,17,23,0.85); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); }
-    .nav-inner { max-width: 1000px; margin: 0 auto; padding: 0 1.5rem; display:flex; align-items:center; justify-content:space-between; height:56px; }
-    .nav-logo { font-weight:700; font-size:1.05rem; color:var(--white); text-decoration:none; }
-    .nav-logo span { color:var(--accent); }
-    nav ul { list-style:none; display:flex; gap:1rem; }
-    nav a { color:var(--muted); text-decoration:none; font-size:0.9rem; }
-    nav a:hover { color:var(--accent); }
-    #hero { max-width:1000px; margin:0 auto; padding:4rem 1.5rem 3rem; display:flex; gap:2.5rem; align-items:center; }
-    .hero-avatar { flex-shrink:0; width:140px; height:140px; border-radius:50%; box-shadow:0 0 0 4px var(--border); object-fit:cover; display:block; }
-    .hero-text h1 { font-size:2.2rem; font-weight:800; color:var(--white); line-height:1.15; }
-    .hero-text h1 span { color:var(--accent); }
-    .hero-subtitle { margin-top:0.4rem; color:var(--muted); font-size:1.02rem; }
-    .hero-bio { margin-top:1rem; max-width:680px; color:var(--text); }
-    .hero-links { margin-top:1.2rem; display:flex; gap:0.6rem; flex-wrap:wrap; }
-    .btn { display:inline-flex; align-items:center; gap:0.5rem; padding:0.5rem 1rem; border-radius:6px; font-weight:700; font-size:0.9rem; text-decoration:none; }
-    .btn-primary { background:var(--accent); color:#0d1117; }
-    .btn-outline { border:1px solid var(--border); color:var(--text); }
-    section { padding:3.2rem 1.5rem; }
-    .section-inner { max-width:1000px; margin:0 auto; }
-    .section-title { font-size:1.25rem; font-weight:800; color:var(--white); margin-bottom:0.5rem; display:flex; align-items:center; gap:0.6rem; }
-    .section-title::after { content:""; flex:1; height:1px; background:var(--border); margin-left:0.6rem; }
-    .section-sub { color:var(--muted); margin-bottom:1.2rem; font-size:0.92rem; }
-    .skills-grid { display:flex; flex-wrap:wrap; gap:0.6rem; }
-    .skill-tag { background:var(--surface); border:1px solid var(--border); border-radius:20px; padding:0.35rem 0.9rem; font-size:0.85rem; color:var(--text); }
-    .skill-tag.highlight { border-color:var(--accent); color:var(--accent); }
-    .projects-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1rem; }
-    .project-card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:1.25rem; display:flex; flex-direction:column; text-decoration:none; transition:transform 0.15s, border-color 0.15s; }
-    .project-card:hover { transform:translateY(-4px); border-color:var(--accent); }
-    .project-icon { font-size:1.4rem; margin-bottom:0.6rem; }
-    .project-name { font-weight:800; color:var(--accent); margin-bottom:0.45rem; }
-    .project-desc { color:var(--muted); font-size:0.9rem; flex:1; }
-    .project-footer { margin-top:1rem; color:var(--muted); font-size:0.82rem; display:flex; gap:0.6rem; }
-    .contact-card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:1.25rem; display:flex; gap:1rem; align-items:center; justify-content:space-between; flex-wrap:wrap; }
-    footer { border-top:1px solid var(--border); text-align:center; padding:1rem; color:var(--muted); font-size:0.82rem; }
-    @media (max-width:640px) { #hero { flex-direction:column; text-align:center; } .hero-text h1 { font-size:1.6rem; } .hero-links { justify-content:center; } }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 99px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.65; overflow-x: hidden;
+    }
+    .bg-mesh {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 80% 60% at 10% 20%, rgba(88,166,255,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 90% 80%, rgba(63,185,80,0.05) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 60% 10%, rgba(188,140,255,0.05) 0%, transparent 55%);
+    }
+    .bg-grid {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image: linear-gradient(rgba(48,54,61,0.25) 1px, transparent 1px), linear-gradient(90deg, rgba(48,54,61,0.25) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 100%);
+    }
+    .orb { position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(80px); opacity: 0.12; animation: drift 20s ease-in-out infinite alternate; }
+    .orb1 { width:500px; height:500px; background:var(--accent); top:-150px; left:-150px; animation-duration:25s; }
+    .orb2 { width:400px; height:400px; background:var(--accent2); bottom:-120px; right:-100px; animation-duration:30s; animation-delay:-10s; }
+    .orb3 { width:300px; height:300px; background:var(--accent3); top:50%; left:60%; animation-duration:20s; animation-delay:-5s; }
+    @keyframes drift { from { transform:translate(0,0) scale(1); } to { transform:translate(40px,60px) scale(1.1); } }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      background: rgba(7,11,15,0.6);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner { max-width:1100px; margin:0 auto; padding:0 2rem; display:flex; align-items:center; justify-content:space-between; height:60px; }
+    .nav-logo { font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:1.1rem; color:var(--white); text-decoration:none; display:flex; align-items:center; gap:0.5rem; }
+    .nav-logo .bracket { color:var(--muted); }
+    .nav-logo .name { color:var(--accent); }
+    nav ul { list-style:none; display:flex; gap:0.25rem; }
+    nav a.nav-link { color:var(--muted); text-decoration:none; font-size:0.875rem; font-weight:500; padding:0.4rem 0.85rem; border-radius:8px; transition:color 0.2s,background 0.2s; }
+    nav a.nav-link:hover { color:var(--white); background:var(--glass); }
+    nav a.nav-link.active { color:var(--accent); }
+
+    #progress-bar { position:fixed; top:0; left:0; z-index:300; height:2px; width:0%; background:linear-gradient(90deg,var(--accent),var(--accent3)); transition:width 0.1s linear; }
+
+    .page { position:relative; z-index:1; }
+
+    #hero { min-height:100vh; display:flex; align-items:center; padding:6rem 2rem 4rem; max-width:1100px; margin:0 auto; gap:4rem; }
+    .hero-left { flex-shrink:0; display:flex; flex-direction:column; align-items:center; gap:1.5rem; }
+    .avatar-wrap { position:relative; width:180px; height:180px; }
+    .avatar-ring { position:absolute; inset:-5px; border-radius:50%; background:conic-gradient(from 0deg,var(--accent),var(--accent3),var(--accent2),var(--accent)); animation:spin 6s linear infinite; padding:3px; }
+    .avatar-ring-inner { width:100%; height:100%; border-radius:50%; background:var(--bg); }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    .avatar-img { position:absolute; inset:4px; width:calc(100% - 8px); height:calc(100% - 8px); border-radius:50%; object-fit:cover; border:3px solid var(--bg); }
+    .hero-social { display:flex; flex-direction:column; gap:0.5rem; }
+    .social-link { display:flex; align-items:center; gap:0.7rem; padding:0.45rem 0.9rem; border-radius:10px; border:1px solid var(--border); background:var(--glass); text-decoration:none; color:var(--muted); font-size:0.82rem; font-weight:500; transition:all 0.25s; white-space:nowrap; backdrop-filter:blur(8px); }
+    .social-link img { width:16px; height:16px; object-fit:contain; filter:brightness(0.8); transition:filter 0.2s; }
+    .social-link:hover { border-color:var(--accent); color:var(--white); background:rgba(88,166,255,0.08); }
+    .social-link:hover img { filter:brightness(1.2); }
+    .hero-right { flex:1; min-width:0; }
+    .hero-badge { display:inline-flex; align-items:center; gap:0.5rem; padding:0.3rem 0.9rem; border-radius:99px; border:1px solid rgba(63,185,80,0.4); background:rgba(63,185,80,0.08); color:var(--accent2); font-size:0.8rem; font-weight:600; margin-bottom:1.2rem; letter-spacing:0.02em; }
+    .hero-badge .dot { width:7px; height:7px; border-radius:50%; background:var(--accent2); animation:pulse-dot 1.8s ease-in-out infinite; }
+    @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(0.7);} }
+    .hero-right h1 { font-family:'Space Grotesk',sans-serif; font-size:clamp(2rem,5vw,3.4rem); font-weight:800; color:var(--white); line-height:1.1; letter-spacing:-0.02em; }
+    .hero-right h1 .accent { color:var(--accent); }
+    .hero-right h1 .accent2 { color:var(--accent3); }
+    .hero-subtitle { margin-top:0.8rem; font-size:1.05rem; color:var(--muted); }
+    .hero-bio { margin-top:1.2rem; font-size:0.97rem; color:var(--text); max-width:600px; border-left:2px solid var(--border2); padding-left:1rem; line-height:1.75; }
+    .hero-cta { margin-top:2rem; display:flex; gap:0.75rem; flex-wrap:wrap; }
+    .btn { display:inline-flex; align-items:center; gap:0.5rem; padding:0.65rem 1.4rem; border-radius:10px; font-weight:700; font-size:0.88rem; text-decoration:none; transition:all 0.25s; border:1px solid transparent; }
+    .btn-primary { background:var(--accent); color:#070b0f; box-shadow:0 0 20px rgba(88,166,255,0.25); }
+    .btn-primary:hover { background:#79b8ff; box-shadow:0 0 30px rgba(88,166,255,0.4); transform:translateY(-2px); }
+    .btn-ghost { border-color:var(--border); color:var(--text); background:var(--glass); backdrop-filter:blur(8px); }
+    .btn-ghost:hover { border-color:var(--accent); color:var(--accent); transform:translateY(-2px); }
+    .scroll-hint { display:flex; flex-direction:column; align-items:center; gap:0.4rem; color:var(--muted); font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; margin-top:3rem; animation:fade-bounce 2.5s ease-in-out infinite; }
+    .scroll-hint .arrow { font-size:1.1rem; }
+    @keyframes fade-bounce { 0%,100%{opacity:0.4;transform:translateY(0);}50%{opacity:1;transform:translateY(6px);} }
+
+    section { padding:5rem 2rem; }
+    .section-inner { max-width:1100px; margin:0 auto; }
+    .section-header { margin-bottom:2.5rem; }
+    .section-eyebrow { font-size:0.75rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); margin-bottom:0.5rem; }
+    .section-title { font-family:'Space Grotesk',sans-serif; font-size:clamp(1.5rem,3vw,2rem); font-weight:800; color:var(--white); display:flex; align-items:center; gap:0.8rem; }
+    .section-title::after { content:""; flex:1; height:1px; background:linear-gradient(90deg,var(--border),transparent); }
+    .section-desc { margin-top:0.5rem; color:var(--muted); font-size:0.93rem; }
+    .reveal { opacity:0; transform:translateY(30px); transition:opacity 0.6s ease,transform 0.6s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+    .reveal-delay-1 { transition-delay:0.1s; }
+    .reveal-delay-2 { transition-delay:0.2s; }
+    .reveal-delay-3 { transition-delay:0.3s; }
+
+    #about { padding-top:0; }
+    .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; }
+    .about-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:1.5rem; backdrop-filter:blur(12px); transition:border-color 0.25s,transform 0.25s; }
+    .about-card:hover { border-color:var(--border2); transform:translateY(-3px); }
+    .about-card-icon { font-size:1.6rem; margin-bottom:0.8rem; }
+    .about-card h3 { font-size:0.95rem; font-weight:700; color:var(--white); margin-bottom:0.4rem; }
+    .about-card p { font-size:0.875rem; color:var(--muted); line-height:1.6; }
+    .about-card.wide { grid-column:1 / -1; }
+
+    #skills { background:rgba(13,17,23,0.4); }
+    .skills-categories { display:flex; flex-direction:column; gap:2rem; }
+    .skill-group-label { font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent3); margin-bottom:0.75rem; }
+    .skill-chips { display:flex; flex-wrap:wrap; gap:0.5rem; }
+    .skill-chip { display:inline-flex; align-items:center; gap:0.45rem; padding:0.4rem 1rem; border-radius:99px; font-size:0.83rem; font-weight:500; border:1px solid var(--border); background:var(--glass); color:var(--text); backdrop-filter:blur(8px); cursor:default; transition:all 0.2s; }
+    .skill-chip:hover { border-color:var(--accent); color:var(--accent); transform:translateY(-2px); box-shadow:0 4px 15px var(--glow); }
+    .skill-chip.core { border-color:rgba(88,166,255,0.4); color:var(--accent); background:rgba(88,166,255,0.07); }
+    .skill-chip.core:hover { box-shadow:0 4px 20px rgba(88,166,255,0.25); }
+    .skill-dot { width:6px; height:6px; border-radius:50%; background:currentColor; flex-shrink:0; }
+
+    .projects-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:1.2rem; }
+    .project-card { position:relative; overflow:hidden; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:1.6rem; display:flex; flex-direction:column; text-decoration:none; backdrop-filter:blur(12px); transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1),border-color 0.3s,box-shadow 0.3s; }
+    .project-card::before { content:""; position:absolute; inset:0; background:linear-gradient(135deg,rgba(88,166,255,0.06) 0%,transparent 60%); opacity:0; transition:opacity 0.3s; }
+    .project-card:hover { transform:translateY(-6px); border-color:var(--border2); box-shadow:0 16px 48px rgba(88,166,255,0.1); }
+    .project-card:hover::before { opacity:1; }
+    .project-card-top { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:1rem; }
+    .project-emoji { font-size:1.6rem; }
+    .project-arrow { color:var(--muted); font-size:1.1rem; transition:transform 0.2s,color 0.2s; }
+    .project-card:hover .project-arrow { transform:translate(3px,-3px); color:var(--accent); }
+    .project-name { font-family:'Space Grotesk',sans-serif; font-size:1.05rem; font-weight:700; color:var(--white); margin-bottom:0.5rem; }
+    .project-desc { color:var(--muted); font-size:0.875rem; flex:1; line-height:1.65; }
+    .project-tags { margin-top:1.2rem; display:flex; flex-wrap:wrap; gap:0.4rem; }
+    .project-tag { padding:0.2rem 0.65rem; border-radius:99px; font-size:0.75rem; font-weight:600; background:rgba(88,166,255,0.1); color:var(--accent); border:1px solid rgba(88,166,255,0.2); }
+
+    #contact { background:rgba(13,17,23,0.4); }
+    .contact-wrap { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; align-items:start; }
+    .contact-info h3 { font-family:'Space Grotesk',sans-serif; font-size:1.25rem; font-weight:700; color:var(--white); margin-bottom:0.5rem; }
+    .contact-info p { color:var(--muted); font-size:0.9rem; margin-bottom:1.2rem; }
+    .contact-email { display:inline-flex; align-items:center; gap:0.5rem; color:var(--accent); font-size:0.92rem; font-weight:600; text-decoration:none; transition:opacity 0.2s; }
+    .contact-email:hover { opacity:0.75; }
+    .contact-links { display:flex; flex-direction:column; gap:0.75rem; }
+    .contact-social-link { display:flex; align-items:center; gap:1rem; padding:1rem 1.25rem; border-radius:var(--radius); border:1px solid var(--border); background:var(--surface); text-decoration:none; backdrop-filter:blur(12px); transition:all 0.25s; }
+    .contact-social-link:hover { border-color:var(--border2); transform:translateX(4px); background:rgba(88,166,255,0.05); }
+    .contact-social-link img { width:22px; height:22px; object-fit:contain; }
+    .contact-social-label { flex:1; }
+    .contact-social-label .lbl-name { color:var(--white); font-weight:600; font-size:0.9rem; }
+    .contact-social-label .lbl-handle { color:var(--muted); font-size:0.8rem; }
+    .contact-social-arrow { color:var(--muted); transition:transform 0.2s; }
+    .contact-social-link:hover .contact-social-arrow { transform:translateX(4px); color:var(--accent); }
+
+    footer { border-top:1px solid var(--border); text-align:center; padding:1.8rem 2rem; color:var(--muted); font-size:0.82rem; position:relative; z-index:1; }
+    footer a { color:var(--accent); text-decoration:none; }
+    footer a:hover { text-decoration:underline; }
+
+    @media (max-width:768px) {
+      #hero { flex-direction:column; text-align:center; gap:2rem; padding-top:5rem; }
+      .hero-left { width:100%; }
+      .hero-social { flex-direction:row; justify-content:center; flex-wrap:wrap; }
+      .hero-bio { border-left:none; border-top:2px solid var(--border2); padding-left:0; padding-top:0.8rem; }
+      .hero-cta { justify-content:center; }
+      .about-grid { grid-template-columns:1fr; }
+      .about-card.wide { grid-column:1; }
+      .contact-wrap { grid-template-columns:1fr; }
+    }
+    @media (max-width:480px) {
+      .avatar-wrap { width:140px; height:140px; }
+      .projects-grid { grid-template-columns:1fr; }
+    }
   </style>
 </head>
 <body>
+
+  <div class="bg-mesh"></div>
+  <div class="bg-grid"></div>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+  <div id="progress-bar"></div>
+
   <nav>
     <div class="nav-inner">
-      <a href="#hero" class="nav-logo">&lt;<span>AhmedRamadan</span>/&gt;</a>
+      <a href="#hero" class="nav-logo">
+        <span class="bracket">&lt;</span><span class="name">AhmedRamadan</span><span class="bracket">/&gt;</span>
+      </a>
       <ul>
-        <li><a href="#about">About</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="#about"    class="nav-link">About</a></li>
+        <li><a href="#skills"   class="nav-link">Skills</a></li>
+        <li><a href="#projects" class="nav-link">Projects</a></li>
+        <li><a href="#contact"  class="nav-link">Contact</a></li>
       </ul>
     </div>
   </nav>
 
-  <section id="hero">
-    <img class="hero-avatar" src="res/profile_pic.jpg" alt="Ahmed Ramadan" />
-    <div class="hero-text">
-      <h1>Hi — I’m <span>Ahmed Ramadan</span></h1>
-      <div class="hero-subtitle">Visual Effects Pipeline Technical Director — VFX tooling, Nuke, Python &amp; open-source</div>
-      <p class="hero-bio">
-        I build tools and pipelines that help VFX teams move faster and ship high‑quality work. My work spans Nuke scripting, pipeline engineering, open-source projects (including Nuke-AI-Denoiser and OpenPype contributions), and integrations across compositing, DIT and grading stages. I focus on robust, repeatable tooling and pragmatic automation for production pipelines.
-      </p>
-      <div class="hero-links">
-        <a class="btn btn-primary" href="https://github.com/aramadan0096" target="_blank" rel="noopener">View GitHub</a>
-        <a class="btn btn-outline" href="https://www.linkedin.com/in/a-ramadan0096/" target="_blank" rel="noopener">LinkedIn</a>
-        <a class="btn btn-outline" href="https://www.imdb.com/name/nm12046362/" target="_blank" rel="noopener">IMDb</a>
-      </div>
-    </div>
-  </section>
+  <div class="page">
 
-  <section id="about" style="padding-top:0;">
-    <div class="section-inner">
-      <h2 class="section-title">📖 About</h2>
-      <p class="section-sub">What I do — short version</p>
-      <p style="max-width:680px; color:var(--text);">
-        I'm a Visual Effects Pipeline Technical Director and team lead with hands-on experience designing VFX pipelines, building production tools (Python / PySide), and integrating open-source tools into studio workflows. I actively publish and maintain open-source repositories related to Nuke, pipeline automation, and asset management. I lead practical, production-first solutions for compositing and delivery pipelines.
-      </p>
-    </div>
-  </section>
-
-  <section id="skills">
-    <div class="section-inner">
-      <h2 class="section-title">⚡ Skills</h2>
-      <p class="section-sub">Tools and technologies I use in production</p>
-      <div class="skills-grid">
-        <span class="skill-tag highlight">Nuke / Blink Kernels</span>
-        <span class="skill-tag highlight">Python (production)</span>
-        <span class="skill-tag highlight">Pipeline Engineering</span>
-        <span class="skill-tag">PySide2 / GUI</span>
-        <span class="skill-tag">OpenPype / Avalon</span>
-        <span class="skill-tag">OpenImageIO / OpenColorIO</span>
-        <span class="skill-tag">FFmpeg</span>
-        <span class="skill-tag">Linux / Windows</span>
-        <span class="skill-tag">Maya (scripting)</span>
-        <span class="skill-tag">Git / CI / Pre-commit</span>
-        <span class="skill-tag">Team Leadership / TD</span>
-      </div>
-    </div>
-  </section>
-
-  <section id="projects">
-    <div class="section-inner">
-      <h2 class="section-title">🚀 Selected Projects</h2>
-      <p class="section-sub">Open-source and production tooling (links to GitHub)</p>
-
-      <div class="projects-grid">
-
-        <a class="project-card" href="https://github.com/aramadan0096/Nuke-AI-Denoiser" target="_blank" rel="noopener">
-          <div class="project-icon">🧼</div>
-          <div class="project-name">Nuke-AI-Denoiser</div>
-          <p class="project-desc">A Nuke plug-in / node wrapper that integrates AI-based denoising into Nuke workflows (Python). Production-oriented denoiser tooling for compositors.</p>
-          <div class="project-footer"><span>Python · Nuke</span></div>
-        </a>
-
-        <a class="project-card" href="https://github.com/aramadan0096/Stax" target="_blank" rel="noopener">
-          <div class="project-icon">📦</div>
-          <div class="project-name">Stax</div>
-          <p class="project-desc">Open-source advanced solution for mass production stock footage management — aimed at scalable asset handling and automation in production.</p>
-          <div class="project-footer"><span>Python · Production Tools</span></div>
-        </a>
-
-        <a class="project-card" href="https://github.com/aramadan0096/nuke-games" target="_blank" rel="noopener">
-          <div class="project-icon">🎮</div>
-          <div class="project-name">nuke-games</div>
-          <p class="project-desc">Scripting experiments and fun utilities for Nuke — practice code that demonstrates Nuke Python usage and node automation.</p>
-          <div class="project-footer"><span>Python · Nuke</span></div>
-        </a>
-
-        <!-- <a class="project-card" href="https://github.com/aramadan0096/NotNuke" target="_blank" rel="noopener">
-          <div class="project-icon">🔧</div>
-          <div class="project-name">NotNuke</div>
-          <p class="project-desc">A shared Foundry .nuke configuration and helpers — useful for standardizing Nuke environments across artists and machines.</p>
-          <div class="project-footer"><span>Config · Python</span></div>
-        </a> -->
-
-        <!-- <a class="project-card" href="https://github.com/aramadan0096" target="_blank" rel="noopener">
-          <div class="project-icon">🌐</div>
-          <div class="project-name">Full GitHub</div>
-          <p class="project-desc">My public GitHub contains repositories for pipeline tools, Nuke integrations, and production utilities. Explore repos for examples of production-ready code and research projects.</p>
-          <div class="project-footer"><span>Open-source</span></div>
-        </a> -->
-
-      </div>
-    </div>
-  </section>
-
-  <section id="contact">
-    <div class="section-inner">
-      <h2 class="section-title">📬 Contact</h2>
-      <p class="section-sub">Get in touch for pipeline work, consultancy or collaborations</p>
-      <div class="contact-card">
-        <div>
-          <h3>Ahmed Ramadan — Visual Effects Pipeline Technical Director</h3>
-          <p style="color:var(--muted)">Based in Giza, Egypt — working across VFX production, pipeline tooling and R&amp;D.</p>
+    <!-- HERO -->
+    <section id="hero">
+      <div class="hero-left">
+        <div class="avatar-wrap">
+          <div class="avatar-ring"><div class="avatar-ring-inner"></div></div>
+          <img class="avatar-img" src="res/profile_pic.jpg" alt="Ahmed Ramadan" />
         </div>
-        <div class="contact-links" style="display:flex; gap:0.6rem;">
-          <a class="contact-link" href="https://github.com/aramadan0096" target="_blank" rel="noopener">GitHub</a>
-          <a class="contact-link" href="https://www.linkedin.com/in/a-ramadan0096/" target="_blank" rel="noopener">LinkedIn</a>
-          <a class="contact-link" href="https://www.imdb.com/name/nm12046362/" target="_blank" rel="noopener">IMDb</a>
-          <a class="contact-link" href="mailto:ahmedramadan347@gmail.com">Email</a>
+        <div class="hero-social">
+          <a class="social-link" href="https://github.com/aramadan0096" target="_blank" rel="noopener">
+            <img src="res/github.png" alt="GitHub" /> aramadan0096
+          </a>
+          <a class="social-link" href="https://www.linkedin.com/in/a-ramadan0096/" target="_blank" rel="noopener">
+            <img src="res/linkedin.png" alt="LinkedIn" /> a-ramadan0096
+          </a>
+          <a class="social-link" href="https://www.imdb.com/name/nm12046362/" target="_blank" rel="noopener">
+            <img src="res/imdb.png" alt="IMDb" /> nm12046362
+          </a>
         </div>
       </div>
-    </div>
-  </section>
 
-  <footer>
-    <p>Built by Ahmed Ramadan · <a href="https://github.com/aramadan0096" target="_blank" rel="noopener">GitHub</a></p>
-  </footer>
+      <div class="hero-right">
+        <div class="hero-badge"><span class="dot"></span> Available for collaboration</div>
+        <h1>
+          Hi — I'm<br>
+          <span class="accent">Ahmed</span> <span class="accent2">Ramadan</span>
+        </h1>
+        <div class="hero-subtitle">Visual Effects Pipeline Technical Director · VFX Tooling · Nuke · Python · Open-Source</div>
+        <p class="hero-bio">
+          I build tools and pipelines that help VFX teams move faster and ship high-quality work. My work spans Nuke scripting, pipeline engineering, open-source projects (including Nuke-AI-Denoiser and OpenPype contributions), and integrations across compositing, DIT and grading stages. I focus on robust, repeatable tooling and pragmatic automation for production pipelines.
+        </p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="https://github.com/aramadan0096" target="_blank" rel="noopener">
+            <img src="res/github.png" alt="" style="width:16px;height:16px;filter:brightness(0);"> View GitHub
+          </a>
+          <a class="btn btn-ghost" href="#projects">Explore Projects &#8594;</a>
+          <a class="btn btn-ghost" href="#contact">Get in Touch</a>
+        </div>
+        <div class="scroll-hint"><span>Scroll</span><span class="arrow">&#8595;</span></div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="section-inner">
+        <div class="section-header reveal">
+          <div class="section-eyebrow">01 · About</div>
+          <h2 class="section-title">What I Do</h2>
+          <p class="section-desc">Short version — pipeline-first, production-proven</p>
+        </div>
+        <div class="about-grid">
+          <div class="about-card reveal reveal-delay-1">
+            <div class="about-card-icon">🎬</div>
+            <h3>VFX Pipeline TD</h3>
+            <p>Designing and building end-to-end VFX pipelines with hands-on experience in compositing, DIT, and delivery stages in a production environment.</p>
+          </div>
+          <div class="about-card reveal reveal-delay-2">
+            <div class="about-card-icon">🛠</div>
+            <h3>Tool Developer</h3>
+            <p>Building production tools in Python / PySide for artists — from Nuke node wrappers to asset management systems that scale across productions.</p>
+          </div>
+          <div class="about-card reveal reveal-delay-3">
+            <div class="about-card-icon">🌍</div>
+            <h3>Open-Source Contributor</h3>
+            <p>Publishing and maintaining repositories on GitHub — Nuke-AI-Denoiser, Stax, OpenPype contributions, and ongoing R&amp;D tooling.</p>
+          </div>
+          <div class="about-card reveal reveal-delay-1">
+            <div class="about-card-icon">👥</div>
+            <h3>Team Lead &amp; TD</h3>
+            <p>Leading pipeline teams with a production-first mindset — pragmatic automation, code standards, and integration across all stages of VFX delivery.</p>
+          </div>
+          <div class="about-card wide reveal reveal-delay-2" style="background:rgba(88,166,255,0.04);border-color:var(--border2);">
+            <div class="about-card-icon">📍</div>
+            <h3>Based in Giza, Egypt — working globally</h3>
+            <p>Working across VFX production, pipeline tooling and R&amp;D. Open to remote collaborations, consultancy, and open-source contributions worldwide.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+      <div class="section-inner">
+        <div class="section-header reveal">
+          <div class="section-eyebrow">02 · Skills</div>
+          <h2 class="section-title">Tools &amp; Technologies</h2>
+          <p class="section-desc">Production-proven stack I use daily</p>
+        </div>
+        <div class="skills-categories">
+          <div class="reveal">
+            <div class="skill-group-label">Core Expertise</div>
+            <div class="skill-chips">
+              <span class="skill-chip core"><span class="skill-dot"></span>Nuke / Blink Kernels</span>
+              <span class="skill-chip core"><span class="skill-dot"></span>Python (production)</span>
+              <span class="skill-chip core"><span class="skill-dot"></span>Pipeline Engineering</span>
+            </div>
+          </div>
+          <div class="reveal reveal-delay-1">
+            <div class="skill-group-label">Libraries &amp; Tools</div>
+            <div class="skill-chips">
+              <span class="skill-chip">PySide2 / GUI</span>
+              <span class="skill-chip">OpenPype / Avalon</span>
+              <span class="skill-chip">OpenImageIO</span>
+              <span class="skill-chip">OpenColorIO</span>
+              <span class="skill-chip">FFmpeg</span>
+            </div>
+          </div>
+          <div class="reveal reveal-delay-2">
+            <div class="skill-group-label">Platforms &amp; Practices</div>
+            <div class="skill-chips">
+              <span class="skill-chip">Linux / Windows</span>
+              <span class="skill-chip">Maya (scripting)</span>
+              <span class="skill-chip">Git / CI / Pre-commit</span>
+              <span class="skill-chip">Team Leadership / TD</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <div class="section-inner">
+        <div class="section-header reveal">
+          <div class="section-eyebrow">03 · Projects</div>
+          <h2 class="section-title">Selected Work</h2>
+          <p class="section-desc">Open-source and production tooling — click to explore on GitHub</p>
+        </div>
+        <div class="projects-grid">
+
+          <a class="project-card reveal reveal-delay-1" href="https://github.com/aramadan0096/Nuke-AI-Denoiser" target="_blank" rel="noopener">
+            <div class="project-card-top">
+              <div class="project-emoji">🧼</div>
+              <div class="project-arrow">↗</div>
+            </div>
+            <div class="project-name">Nuke-AI-Denoiser</div>
+            <p class="project-desc">A Nuke plug-in / node wrapper that integrates AI-based denoising into Nuke workflows. Production-oriented denoiser tooling built for compositors using Python.</p>
+            <div class="project-tags">
+              <span class="project-tag">Python</span>
+              <span class="project-tag">Nuke</span>
+              <span class="project-tag">AI / ML</span>
+            </div>
+          </a>
+
+          <a class="project-card reveal reveal-delay-2" href="https://github.com/aramadan0096/Stax" target="_blank" rel="noopener">
+            <div class="project-card-top">
+              <div class="project-emoji">📦</div>
+              <div class="project-arrow">↗</div>
+            </div>
+            <div class="project-name">Stax</div>
+            <p class="project-desc">Open-source advanced solution for mass production stock footage management — scalable asset handling and automation built for VFX production pipelines.</p>
+            <div class="project-tags">
+              <span class="project-tag">Python</span>
+              <span class="project-tag">Asset Management</span>
+              <span class="project-tag">Production Tools</span>
+            </div>
+          </a>
+
+          <a class="project-card reveal reveal-delay-3" href="https://github.com/aramadan0096/nuke-games" target="_blank" rel="noopener">
+            <div class="project-card-top">
+              <div class="project-emoji">🎮</div>
+              <div class="project-arrow">↗</div>
+            </div>
+            <div class="project-name">nuke-games</div>
+            <p class="project-desc">Scripting experiments and fun utilities for Nuke — practice code demonstrating Nuke Python node automation, creative experiments inside a compositing environment.</p>
+            <div class="project-tags">
+              <span class="project-tag">Python</span>
+              <span class="project-tag">Nuke</span>
+              <span class="project-tag">Scripting</span>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="section-inner">
+        <div class="section-header reveal">
+          <div class="section-eyebrow">04 · Contact</div>
+          <h2 class="section-title">Get in Touch</h2>
+          <p class="section-desc">Pipeline work, consultancy, or open-source collaborations</p>
+        </div>
+        <div class="contact-wrap">
+          <div class="contact-info reveal">
+            <h3>Ahmed Ramadan</h3>
+            <p>Visual Effects Pipeline Technical Director — Based in Giza, Egypt. Working across VFX production, pipeline tooling and R&amp;D.</p>
+            <a class="contact-email" href="mailto:ahmedramadan347@gmail.com">✉ ahmedramadan347@gmail.com</a>
+          </div>
+          <div class="contact-links reveal reveal-delay-1">
+            <a class="contact-social-link" href="https://github.com/aramadan0096" target="_blank" rel="noopener">
+              <img src="res/github.png" alt="GitHub" />
+              <div class="contact-social-label">
+                <div class="lbl-name">GitHub</div>
+                <div class="lbl-handle">github.com/aramadan0096</div>
+              </div>
+              <span class="contact-social-arrow">→</span>
+            </a>
+            <a class="contact-social-link" href="https://www.linkedin.com/in/a-ramadan0096/" target="_blank" rel="noopener">
+              <img src="res/linkedin.png" alt="LinkedIn" />
+              <div class="contact-social-label">
+                <div class="lbl-name">LinkedIn</div>
+                <div class="lbl-handle">linkedin.com/in/a-ramadan0096</div>
+              </div>
+              <span class="contact-social-arrow">→</span>
+            </a>
+            <a class="contact-social-link" href="https://www.imdb.com/name/nm12046362/" target="_blank" rel="noopener">
+              <img src="res/imdb.png" alt="IMDb" />
+              <div class="contact-social-label">
+                <div class="lbl-name">IMDb</div>
+                <div class="lbl-handle">imdb.com/name/nm12046362</div>
+              </div>
+              <span class="contact-social-arrow">→</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>
+        Built by <a href="https://github.com/aramadan0096" target="_blank" rel="noopener">Ahmed Ramadan</a> ·
+        <a href="https://github.com/aramadan0096" target="_blank" rel="noopener">GitHub</a> ·
+        <a href="https://www.linkedin.com/in/a-ramadan0096/" target="_blank" rel="noopener">LinkedIn</a> ·
+        <a href="https://www.imdb.com/name/nm12046362/" target="_blank" rel="noopener">IMDb</a>
+      </p>
+    </footer>
+
+  </div>
+
+  <script>
+    const bar = document.getElementById('progress-bar');
+    window.addEventListener('scroll', () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.width = (window.scrollY / max * 100) + '%';
+    }, { passive: true });
+
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks  = document.querySelectorAll('nav a.nav-link');
+    const navObs = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(l => l.classList.remove('active'));
+          const a = document.querySelector(`nav a.nav-link[href="#${entry.target.id}"]`);
+          if (a) a.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    sections.forEach(s => navObs.observe(s));
+
+    const revealObs = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+  </script>
 </body>
 </html>
