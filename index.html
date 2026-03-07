@@ -140,9 +140,11 @@
 
     .projects-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:1.2rem; }
     .project-card { position:relative; overflow:hidden; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:1.6rem; display:flex; flex-direction:column; text-decoration:none; backdrop-filter:blur(12px); transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1),border-color 0.3s,box-shadow 0.3s; }
-    .project-card::before { content:""; position:absolute; inset:0; background:linear-gradient(135deg,rgba(88,166,255,0.06) 0%,transparent 60%); opacity:0; transition:opacity 0.3s; }
+    .project-card::before { content:""; position:absolute; inset:0; background:linear-gradient(135deg,rgba(88,166,255,0.06) 0%,transparent 60%); opacity:0; transition:opacity 0.3s; z-index:1; }
+    .project-card::after { content:""; position:absolute; inset:0; background-image:var(--card-bg,none); background-size:cover; background-position:center right; -webkit-mask-image:linear-gradient(to right,transparent 0%,black 100%); mask-image:linear-gradient(to right,transparent 0%,black 100%); opacity:0.4; z-index:0; pointer-events:none; }
     .project-card:hover { transform:translateY(-6px); border-color:var(--border2); box-shadow:0 16px 48px rgba(88,166,255,0.1); }
     .project-card:hover::before { opacity:1; }
+    .project-card > * { position:relative; z-index:2; }
     .project-card-top { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:1rem; }
     .project-emoji { font-size:1.6rem; }
     .project-arrow { color:var(--muted); font-size:1.1rem; transition:transform 0.2s,color 0.2s; }
@@ -242,7 +244,7 @@
         </h1>
         <div class="hero-subtitle">Visual Effects Pipeline Technical Director · VFX Tooling · Nuke · Python · Open-Source</div>
         <p class="hero-bio">
-          I build tools and pipelines that help VFX teams move faster and ship high-quality work. My work spans Nuke scripting, pipeline engineering, open-source projects (including Nuke AI-Denoiser and StaX), and integrations across compositing, DIT and grading stages. I focus on robust, repeatable tooling and pragmatic automation for production pipelines.
+          I build tools and pipelines that help VFX teams move faster and ship high-quality work. My work spans Pipeline engineering, open-source projects (including Nuke AI-Denoiser and StaX), and integrations across VFX departments, DIT and grading stages. I focus on robust, repeatable tooling and pragmatic automation for production pipelines.
         </p>
         <div class="hero-cta">
           <a class="btn btn-primary" href="https://github.com/aramadan0096" target="_blank" rel="noopener">
@@ -343,7 +345,7 @@
         </div>
         <div class="projects-grid">
 
-          <a class="project-card reveal reveal-delay-1" href="https://github.com/aramadan0096/Nuke-AI-Denoiser" target="_blank" rel="noopener">
+          <a class="project-card reveal reveal-delay-1" href="https://github.com/aramadan0096/Nuke-AI-Denoiser" target="_blank" rel="noopener" style="--card-bg:url('res/nuke_optixs.png')">
             <div class="project-card-top">
               <div class="project-emoji">🧼</div>
               <div class="project-arrow">↗</div>
@@ -357,7 +359,7 @@
             </div>
           </a>
 
-          <a class="project-card reveal reveal-delay-2" href="https://aramadan0096.github.io/stax-docs" target="_blank" rel="noopener">
+          <a class="project-card reveal reveal-delay-2" href="https://aramadan0096.github.io/stax-docs" target="_blank" rel="noopener" style="--card-bg:url('res/StaX.png')">
             <div class="project-card-top">
               <div class="project-emoji">📦</div>
               <div class="project-arrow">↗</div>
@@ -371,7 +373,7 @@
             </div>
           </a>
 
-          <a class="project-card reveal reveal-delay-3" href="https://github.com/aramadan0096/nuke-games" target="_blank" rel="noopener">
+          <a class="project-card reveal reveal-delay-3" href="https://github.com/aramadan0096/nuke-games" target="_blank" rel="noopener" style="--card-bg:url('res/nuke_games.png')">
             <div class="project-card-top">
               <div class="project-emoji">🎮</div>
               <div class="project-arrow">↗</div>
